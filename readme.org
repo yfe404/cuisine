@@ -2,7 +2,7 @@
 
 #+BEGIN_QUOTE
 Let =R= be a recipe composed of =n= ingredients. Each ingredient is denoted by its amount of calories =c=. The recipe =R= has a quantity =q= of each
-ingredient composing it. The goal is to find the right quantity =q= for each ingredient such that \sum{i=0}{n} c_i * q_i = T.
+ingredient composing it. The goal is to find the right quantity =q= for each ingredient such that \sum_{i=0}^{n} c_i * q_i = T.
 T behing the target number of calories that you want for your recipe. Exemple: I want to make a recipe composed of oats, milk, eggs, flakseeds and peanut butter 
 such that the total number of calories for the recipe is 600 kcal; how much of each ingredient should I take? This is the purpose of this repository. 
 #+END_QUOTE
