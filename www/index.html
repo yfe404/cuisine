@@ -21,16 +21,13 @@
 
     <p>Total calories: <span class="totalCalories"></span> kcal</p>
 
-    <form>
-      <div>
-	<label for="target">Target calories:</label>
+    <label for="target">Target calories:</label>
 
-	<input type="number" id="target" name="target"
+    <input type="number" id="target" name="target"
 	       min="50" max="1000">
-	<div>
-	    <button>Run</button>
-	</div>
-    </form>
+    
+    <button onclick="run()">Run</button>
+	
     
   </body>
 
@@ -82,6 +79,10 @@
        }
        
        document.getElementsByClassName("totalCalories")[0].innerHTML = _sum;
+   }
+
+   function run() {
+       console.log("Button clicked");
    }
 
    fillTable();
