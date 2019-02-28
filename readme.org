@@ -6,3 +6,8 @@ ingredient composing it. The goal is to find the right quantity =q= for each ing
 T behing the target number of calories that you want for your recipe. Exemple: I want to make a recipe composed of oats, milk, eggs, flakseeds and peanut butter 
 such that the total number of calories for the recipe is 600 kcal; how much of each ingredient should I take? This is the purpose of this repository. 
 #+END_QUOTE
+
+
+** How it works 
+
+[[file:img/tuto.png]]
