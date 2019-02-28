@@ -10,37 +10,12 @@
     <table class="ingredientsTable">
       <thead>
 	<tr>
-	  <th>head1</th>
-	  <th>head2</th>
-	  <th>head3</th>
+	  <th>Ingredients</th>
+	  <th>Calories (for 100 grams)</th>
+	  <th>Quantity (in grams)</th>
 	</tr>
       </thead>
-      <tbody>
-	<tr>
-	  <td>cell1_1</td>
-	  <td>cell2_1</td>
-	  <td>cell3_1</td>
-	</tr>
-	<tr>
-	  <td>cell1_2</td>
-	  <td>cell2_2</td>
-	  <td>cell3_2</td>
-	</tr>
-	<tr>
-	  <td>cell1_3</td>
-	  <td>cell2_3</td>
-	  <td>cell3_3</td>
-	</tr>
-	<tr>
-	  <td>cell1_4</td>
-	  <td>cell2_4</td>
-	  <td>cell3_4</td>
-	</tr>
-	<tr>
-	  <td>cell1_5</td>
-	  <td>cell2_5</td>
-	  <td>cell3_5</td>
-	</tr>
+      <tbody class="ingredientsTableBody">
       </tbody>
     </table>
 
@@ -53,7 +28,7 @@
 	<input type="number" id="target" name="target"
 	       min="50" max="1000">
 	<div>
-	  <input type="Run">
+	    <button>Run</button>
 	</div>
     </form>
     
@@ -84,6 +59,22 @@
 	   "quantity": 100
        }
    ]
+
+   function fillTable() {
+       var _str = ""
+       for (i = 0; i < data.length; ++i) {
+	   _str += "<tr><td>" 
+	   _str += data[i].name
+	   _str += "</td><td>"
+	   _str += data[i].calories
+	   _str += "</td><td>"
+	   _str += data[i].quantity
+	   _str += "</td></tr>"
+       }
+       document.getElementsByClassName("ingredientsTableBody")[0].innerHTML = _str;
+   }
+
+   fillTable();
   </script>
   
 </html>
