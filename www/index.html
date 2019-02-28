@@ -19,7 +19,7 @@
       </tbody>
     </table>
 
-    <p>Total calories: 2097 kcal</p>
+    <p>Total calories: <span class="totalCalories"></span> kcal</p>
 
     <form>
       <div>
@@ -74,7 +74,18 @@
        document.getElementsByClassName("ingredientsTableBody")[0].innerHTML = _str;
    }
 
+   function updateTotal() {
+       var _sum = 0;
+
+       for (i = 0; i < data.length; ++i) {
+	   _sum += (data[i].calories * data[i].quantity) / 100
+       }
+       
+       document.getElementsByClassName("totalCalories")[0].innerHTML = _sum;
+   }
+
    fillTable();
+   updateTotal();
   </script>
   
 </html>
