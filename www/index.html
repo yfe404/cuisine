@@ -81,9 +81,43 @@
        document.getElementsByClassName("totalCalories")[0].innerHTML = _sum;
    }
 
+
+   function createEvent() {
+
+       var event = {
+	   "target": {
+	       "proteins": 0,
+	       "carbohydrates": 0,
+	       "fats": 0,
+	       "calories": parseInt(document.getElementById("target").value)
+	   },
+	   "ingredients": []
+       };
+
+       for (i = 0; i < data.length; ++i) {
+	   event.ingredients.push(
+	       {
+		   "name": data[i].name,
+		   "quantity": data[i].quantity,
+		   "unit": "g",
+		   "calories": data[i].calories,
+		   "proteins": 0,
+		   "carbohydrates": 0,
+		   "fats": 0,
+		   "price": 0
+
+	       }
+	   )
+       }
+       return event;
+   }
+
    function run() {
        console.log("Button clicked");
+       var event = createEvent();
+       console.log(event);
    }
+
 
    fillTable();
    updateTotal();
