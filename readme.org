@@ -1,3 +1,7 @@
+#+BEGIN_QUOTE
+Live demo: http://test-cuisine-yfe.s3-website-eu-west-1.amazonaws.com/
+#+END_QUOTE
+
 * Cuisine
 
 #+BEGIN_QUOTE
