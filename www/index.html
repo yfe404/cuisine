@@ -20,6 +20,9 @@
     </table>
 
     <p>Total calories: <span class="totalCalories"></span> kcal</p>
+    <p>Total proteins: <span class="totalProteins"></span> g</p>
+    <p>Total carbohydrates: <span class="totalCarbohydrates"></span> g</p>
+    <p>Total fats: <span class="totalFats"></span> g</p>
 
     <label for="target">Target calories:</label>
 
@@ -36,23 +39,38 @@
    var data = [
        {
 	   "name": "oats",
-	   "calories": 389,
+	   "calories": 350,
+	   "proteins": 14,
+	   "carbohydrates": 56,
+	   "fats": 6.9,
 	   "quantity": 100
        },{
 	   "name": "peanut butter",
 	   "calories": 589,
+	   "proteins": 25,
+	   "carbohydrates": 20,
+	   "fats": 50,
 	   "quantity": 100
        },{
 	   "name": "flaxseeds",
 	   "calories": 534,
+	   "proteins": 18,
+	   "carbohydrates": 29,
+	   "fats": 42,
 	   "quantity": 100
        },{
 	   "name": "pumpkin seeds",
-	   "calories": 544,
+	   "calories": 446,
+	   "proteins": 19,
+	   "carbohydrates": 54,
+	   "fats": 14,
 	   "quantity": 100
        },{
 	   "name": "rice milk",
-	   "calories": 41,
+	   "calories": 47,
+	   "proteins": 0.3,
+	   "carbohydrates": 9,
+	   "fats": 1,
 	   "quantity": 100
        }
    ]
@@ -72,13 +90,22 @@
    }
 
    function updateTotal() {
-       var _sum = 0;
+       var _sumCalories = 0;
+       var _sumProteins = 0;
+       var _sumCarbohdrates = 0;
+       var _sumFats = 0;
 
        for (i = 0; i < data.length; ++i) {
-	   _sum += (data[i].calories * data[i].quantity) / 100
+	   _sumCalories += (data[i].calories * data[i].quantity) / 100
+	   _sumProteins += (data[i].proteins * data[i].quantity) / 100
+	   _sumCarbohdrates += (data[i].carbohydrates * data[i].quantity) / 100
+	   _sumFats += (data[i].fats * data[i].quantity) / 100
        }
        
-       document.getElementsByClassName("totalCalories")[0].innerHTML = _sum;
+       document.getElementsByClassName("totalCalories")[0].innerHTML = _sumCalories;
+       document.getElementsByClassName("totalProteins")[0].innerHTML = _sumProteins;
+       document.getElementsByClassName("totalCarbohydrates")[0].innerHTML = _sumCarbohdrates;
+       document.getElementsByClassName("totalFats")[0].innerHTML = _sumFats;
    }
 
 
@@ -101,10 +128,10 @@
 		   "quantity": data[i].quantity,
 		   "unit": "g",
 		   "calories": data[i].calories,
-		   "proteins": 0,
-		   "carbohydrates": 0,
-		   "fats": 0,
-		   "price": 0
+		   "proteins": data[i].proteins,
+		   "carbohydrates": data[i].carbohydrates,
+		   "fats": data[i].fats,
+		   "price": 1.0
 
 	       }
 	   )
@@ -115,9 +142,25 @@
    function run() {
        console.log("Button clicked");
        var event = createEvent();
-       console.log(event);
-   }
 
+       console.log(event)
+       
+       var xhr = new XMLHttpRequest();
+       xhr.open('POST', 'https://wg3am3bc07.execute-api.eu-west-1.amazonaws.com/dev/opt');
+       xhr.setRequestHeader('Content-Type', 'application/json');
+       xhr.onload = function() {
+	   if (xhr.status === 200) {
+               var response = JSON.parse(xhr.responseText);
+	       for(var i = 0; i < response.quantities.length; ++i) {
+		   data[i].quantity = response.quantities[i] * 100;
+		   updateTotal();
+		   fillTable();
+	       }
+
+	   }
+       };
+       xhr.send(JSON.stringify(event));
+   }
 
    fillTable();
    updateTotal();
