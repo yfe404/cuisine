@@ -21,6 +21,7 @@
 	<table class="ingredientsTable">
 	    <thead>
 		<tr>
+		    <th></th>
 		    <th>Ingredients</th>
 		    <th>Calories (for 100 grams)</th>
 		    <th>Quantity (in grams)</th>
@@ -29,7 +30,7 @@
 	    <tbody class="ingredientsTableBody">
 	    </tbody>
 	</table>
-
+	<button type="button" class="delete-row">Delete Row</button>
 	<p>Total calories: <span class="totalCalories"></span> kcal</p>
 	<p>Total proteins: <span class="totalProteins"></span> g</p>
 	<p>Total carbohydrates: <span class="totalCarbohydrates"></span> g</p>
@@ -100,7 +101,7 @@
      function fillTable() {
 	 var _str = ""
 	 for (i = 0; i < data.length; ++i) {
-	     _str += "<tr><td>" 
+	     _str += "<tr><td><input type='checkbox' name='record'></td><td>" 
 	     _str += data[i].name
 	     _str += "</td><td>"
 	     _str += data[i].calories
@@ -193,7 +194,7 @@
              var carbohydrates = $("#carbohydrates").val();
              var fats = $("#fats").val();
 	     //             var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + calories + "</td><td>" + proteins + "</td><td>" + carbohydrates + "</td><td>" + fats + "</td></tr>";
-	     var markup = "<tr><td>" + name + "</td><td>" + calories + "</td><td>" + "100" +  "</td></tr>";
+	     var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + calories + "</td><td>" + "100" +  "</td></tr>";
 	     data.push({
 		 "name": name,
 		 "calories": parseInt(calories),
@@ -209,6 +210,10 @@
          $(".delete-row").click(function(){
              $("table tbody").find('input[name="record"]').each(function(){
 		 if($(this).is(":checked")){
+		     // .childNodes[1].innerText)
+		     var ingredientNameToDelete = $(this).parents("tr")[0].cells[1].innerText;
+		     var idxToDelete = data.findIndex(function(elem){return elem.name == ingredientNameToDelete});
+		     data.splice(idxToDelete,1);
 		     $(this).parents("tr").remove();
 		 }
              });
