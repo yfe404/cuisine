@@ -18,6 +18,7 @@ such that the total number of calories for the recipe is 600 kcal; how much of e
 ** Roadmap
 - [X] Add ingredients
 - [X] Remove ingredients
+- [ ] Enable users to quickly find and select from a pre-populated list of values as they type an ingredient name 
 - [ ] Handle more units (currently only grams, next: liters, units, etc.)
 - [ ] Can choose the range for proteins, carbohydrates and fats (eg. I want a 600kcal recipe with at least 30g of proteins)
 - [ ] Optimize the PRAL index (how acid the recipe is)
