@@ -4,12 +4,14 @@
 	<meta charset="UTF-8">
 	<title>Cuisine</title>
 	<link rel="stylesheet" href="stylesheet.css" type="text/css">
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     </head>
     <body>
 
 	<form>
-            <input type="text" id="name" placeholder="e.g. Kiwi">
+            <input class="ui-widget" type="text" id="name" placeholder="e.g. Kiwi">
             <input type="number" id="calories" placeholder="Calories">
             <input type="number" id="proteins" placeholder="proteins">
             <input type="number" id="carbohydrates" placeholder="Carbohydrates">
@@ -220,6 +222,24 @@
          });
      });    
 
+     $( function() {
+	 var availableTags = data.map(x => x.name);
+	 $( "#name" ).autocomplete({
+	     source: availableTags
+	 });
+	 $( "#name" ).on( "autocompleteselect", function( event, ui ) {
+	     ingredientIndex = data.findIndex(function(elem){return elem.name == ui.item.label});
+	     console.log(ingredientIndex);
+	     if (ingredientIndex != -1) {
+		 ingredient = data[ingredientIndex]
+		 console.log(ingredient);
+		 $("#calories")[0].value = ingredient.calories
+		 $("#proteins")[0].value = ingredient.proteins
+		 $("#carbohydrates").value = ingredient.carbohydrates
+		 $("#fats").value = ingredient.fats
+	     }
+	 } );
+     } );
      
      fillTable();
      updateTotal();
