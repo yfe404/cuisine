@@ -151,6 +151,8 @@
 	     _str += data[i].quantity
 	     _str += "</td><td>"
 	     _str += '<input type="number" class="cons-qty-min" min="0" max="1000">'
+	     _str += "</td><td>"
+	     _str += '<input type="number" class="cons-qty-max" min="0" max="1000">'
 	     _str += "</td></tr>"
 	 }
 	 document.getElementsByClassName("ingredientsTableBody")[0].innerHTML = _str;
@@ -200,7 +202,7 @@
 	 // cons-qty-min
 	 var consQtyMin = Array.from($(".cons-qty-min")).map(processInputConstraints);
 	 // cons-qty-max
-	 var consQtyMax = $(".cons-qty-max");
+	 var consQtyMax = Array.from($(".cons-qty-max")).map(processInputConstraints);
 	 for (i = 0; i < data.length; ++i) {
 	     event.ingredients.push(
 		 {
@@ -217,6 +219,10 @@
 	     if (consQtyMin[i] != -1) {
 		 event.ingredients[event.ingredients.length-1]["quantity_min"] = consQtyMin[i] / 100.0;
 	     }
+	     if (consQtyMax[i] != -1) {
+		 event.ingredients[event.ingredients.length-1]["quantity_max"] = consQtyMax[i] / 100.0;
+	     }
+
 	 }
 	 return event;
      }
@@ -253,7 +259,7 @@
              var carbohydrates = $("#carbohydrates").val();
              var fats = $("#fats").val();
 	     //             var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + calories + "</td><td>" + proteins + "</td><td>" + carbohydrates + "</td><td>" + fats + "</td></tr>";
-	     var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + calories + "</td><td>" + "100" + "</td><td> <input type='number' class='cons-qty-min' min='0' max='1000'>" +  "</td></tr>";
+	     var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + calories + "</td><td>" + "100" + "</td><td> <input type='number' class='cons-qty-min' min='0' max='1000'>" + "</td><td> <input type='number' class='cons-qty-max' min='0' max='1000'>" + "</td></tr>";
 	     data.push({
 		 "name": name,
 		 "calories": parseInt(calories),
