@@ -1,5 +1,5 @@
 #+BEGIN_QUOTE
-Live demo: http://test-cuisine-yfe.s3-website-eu-west-1.amazonaws.com/
+Live demo: https://yafeunteun.github.io/cuisine/
 #+END_QUOTE
 
 * Cuisine
