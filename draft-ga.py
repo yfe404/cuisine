@@ -168,7 +168,10 @@ if __name__ == "__main__":
 
     ranges = [Range(0, 10000) for _ in range(len(ingredients_all))]
 
-    ranges[4] = Range(30, 50)
+    ranges[3] = Range(20, 30) ## framboise
+    ranges[4] = Range(30, 50) ## pommes
+    ranges[5] = Range(10, 20) ## graines de courge
+    ranges[6] = Range(50,100) ## flocons de soja
     
     target = Target(proteins=0, carbohydrates=0, fats=0, calories=600)
     
