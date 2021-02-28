@@ -9,7 +9,7 @@ from collections import namedtuple
 __MAGIC__ = 142
 
 
-
+Range = namedtuple("Range", ('min', 'max'))
 
 def mutation_operator(ind, indpb=0.05):
     for idx, bit in enumerate(ind):
@@ -34,7 +34,7 @@ def crossover(ind1, ind2):
     return (ind1, ind2)
 
 
-def score(ingredient_list, target, lockers, genome):
+def score(ingredient_list, target, lockers, ranges, genome):
     n_ingredients = len(ingredient_list)
     proteins_sum = 0
     carbohydrates_sum = 0
@@ -60,20 +60,29 @@ def score(ingredient_list, target, lockers, genome):
     error += target.fats*(fats_sum - target.fats)**2
     error += (calories_sum - target.calories)**2
 
+    # we try to maximize the proteins
     error -= proteins_sum
-    
-    
+
+
+    if ranges is not None:
+        for idx in range(len(genome)):
+            if ranges[idx]:
+                if genome[idx] > ranges[idx].max / ingredient_list[idx].quantity or genome[idx] < ranges[idx].min / ingredient_list[idx].quantity:
+                    error += 10000000
+
     return (error,)
     
+
     ## @todo: use required argument
 
 
 class ThisIsMadness():
-    def __init__(self, ingredients, target, lockers=None):
+    def __init__(self, ingredients, target, lockers=None, ranges=None):
 
         n_ingredients = len(ingredients)
         self.ingredients = ingredients
         self.lockers = lockers
+        self.ranges = ranges
         creator.create("FitnessMax", base.Fitness, weights=(-1.0,))
         creator.create("Individual", list, fitness=creator.FitnessMax)
 
@@ -84,7 +93,7 @@ class ThisIsMadness():
         self.toolbox.register("mate", crossover)
         self.toolbox.register("mutate", mutation_operator, indpb=0.05)
         self.toolbox.register("select", tools.selTournament, tournsize=3)
-        self.toolbox.register("evaluate", score, self.ingredients, target, self.lockers)
+        self.toolbox.register("evaluate", score, self.ingredients, target, self.lockers, self.ranges)
 
         self.pop = self.toolbox.population(n=500)
 
@@ -154,11 +163,16 @@ if __name__ == "__main__":
 
     lockers = [False for _ in range(len(ingredients_all))]
     lockers[0] = 200
+    lockers[1] = 20
     lockers[2] = 50
+
+    ranges = [Range(0, 10000) for _ in range(len(ingredients_all))]
+
+    ranges[4] = Range(30, 50)
     
     target = Target(proteins=0, carbohydrates=0, fats=0, calories=600)
     
-    p = ThisIsMadness(ingredients_all, target, lockers=lockers)
+    p = ThisIsMadness(ingredients_all, target, lockers=lockers, ranges=ranges)
     p.solve()
     print(p.quantities)
     print(p.macros)
