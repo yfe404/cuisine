@@ -1,8 +1,19 @@
-#+BEGIN_QUOTE
-Live demo: https://yfe404.github.io/cuisine/
-#+END_QUOTE
 
-* Cuisine
+
+<p align="center">
+<a href="https://github.com/yfe404/cuisine/"><img alt="Kuisine Logo" src="./logos/kuisine-logo-regular.png" width="75%"></a>
+</p>
+
+
+<h2 align="center">Be Healthy</h2>
+
+<p align="center">
+<a href="https://github.com/yfe4040/cuisine/actions"><img alt="Actions Status" src="https://github.com/yfe404/cuisine/workflows/CI/badge.svg"></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+</p>
+
+
+# What is it ? 
 
 #+BEGIN_QUOTE
 Let =R= be a recipe composed of =n= ingredients. Each ingredient is denoted by its amount of calories =c=. The recipe =R= has a quantity =q= of each
