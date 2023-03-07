@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     </head>
     <body>
 
@@ -64,45 +64,72 @@
 
     <script>
 
-     var data = [
-	 {
-	     "name": "oats",
-	     "calories": 350,
-	     "proteins": 14,
-	     "carbohydrates": 56,
-	     "fats": 6.9,
-	     "quantity": 100
-	 },{
-	     "name": "peanut butter",
-	     "calories": 589,
-	     "proteins": 25,
-	     "carbohydrates": 20,
-	     "fats": 50,
-	     "quantity": 100
-	 },{
-	     "name": "flaxseeds",
-	     "calories": 534,
-	     "proteins": 18,
-	     "carbohydrates": 29,
-	     "fats": 42,
-	     "quantity": 100
-	 },{
-	     "name": "pumpkin seeds",
-	     "calories": 446,
-	     "proteins": 19,
-	     "carbohydrates": 54,
-	     "fats": 14,
-	     "quantity": 100
-	 },{
-	     "name": "rice milk",
-	     "calories": 47,
-	     "proteins": 0.3,
-	     "carbohydrates": 9,
-	     "fats": 1,
-	     "quantity": 100
-	 }
-     ]
+     var data = localStorage.getItem("data")
+     if (data) {
+	 // convert it to an array so we can loop over it
+	 console.log(data)
+	 data = JSON.parse(data)
+     } else {
+	 data = []
+     }
+
+     
      var dataStore = [
+         {
+	     "name": "tomato",
+	     "calories": 27,
+	     "proteins": 0.5,
+	     "carbohydrates": 3.5,
+	     "fats": 0.5,
+	     "quantity": 100
+	 },
+	 
+	 {
+	     "name": "apple",
+	     "calories": 80,
+	     "proteins": 0.5,
+	     "carbohydrates": 12.8,
+	     "fats": 0.5,
+	     "quantity": 100
+	 },
+
+	 {
+	     "name": "carrots",
+	     "calories": 41,
+	     "proteins": 0.63,
+	     "carbohydrates": 7.59,
+	     "fats": 0.5,
+	     "quantity": 100
+	 },
+
+	 {
+	     "name": "nutritional yeast",
+	     "calories": 334,
+	     "proteins": 40.4,
+	     "carbohydrates": 21.8,
+	     "fats": 4.5,
+	     "quantity": 100
+	 },
+
+	 {
+	     "name": "chickpeas",
+	     "calories": 111,
+	     "proteins": 6.74,
+	     "carbohydrates": 15,
+	     "fats": 2.68,
+	     "quantity": 100
+	 },
+
+         {
+	     "name": "egg",
+	     "calories": 143,
+	     "proteins": 13,
+	     "carbohydrates": 0.7,
+	     "fats": 10,
+	     "quantity": 100
+	 },
+
+
 	 {
 	     "name": "oats",
 	     "calories": 350,
@@ -142,6 +169,18 @@
      ]
 
      function fillTable() {
+
+	 var consQtyMax = localStorage.getItem("consQtyMax");
+	 var consQtyMin = localStorage.getItem("consQtyMin"); 
+
+	 if (consQtyMin) {
+	     consQtyMin = JSON.parse(consQtyMin)
+	 }
+	 
+	 if (consQtyMax) {
+	     consQtyMax = JSON.parse(consQtyMax)
+	 }
+	 
 	 var _str = ""
 	 for (i = 0; i < data.length; ++i) {
 	     _str += "<tr><td><input type='checkbox' name='record'></td><td>" 
@@ -151,10 +190,18 @@
 	     _str += "</td><td>"
 	     _str += data[i].quantity
 	     _str += "</td><td>"
-	     _str += '<input type="number" class="cons-qty-min" min="0" max="1000">'
-	     _str += "</td><td>"
-	     _str += '<input type="number" class="cons-qty-max" min="0" max="1000">'
-	     _str += "</td></tr>"
+	     _str += '<input type="number" class="cons-qty-min" min="0" max="1000" '
+	     if (consQtyMin){
+		 _str += 'value="' + consQtyMin[i] + '" '
+	     }
+	     _str += "></td><td>"
+	     
+	     _str += '<input type="number" class="cons-qty-max" min="0" max="1000" '
+	     if (consQtyMax){
+		 _str += 'value="' + consQtyMax[i] + '" '
+	     }
+
+	     _str += "></td></tr>"
 	 }
 	 document.getElementsByClassName("ingredientsTableBody")[0].innerHTML = _str;
      }
@@ -179,7 +226,7 @@
      }
 
      function processInputConstraints(x) {
-	 var v = parseInt(x.value);
+	 var v = parseFloat(x.value);
 	 if (isNaN(v)) {
 	     return -1;
 	 } else {
@@ -191,10 +238,10 @@
 
 	 var event = {
 	     "target": {
-		 "proteins": parseInt(document.getElementById("targetProteins").value),
+		 "proteins": parseFloat(document.getElementById("targetProteins").value),
 		 "carbohydrates": 0,
 		 "fats": 0,
-		 "calories": parseInt(document.getElementById("targetCalories").value)
+		 "calories": parseFloat(document.getElementById("targetCalories").value)
 	     },
 	     "ingredients": []
 	 };
@@ -202,8 +249,10 @@
 	 // fetch constraints on ingredient quantities
 	 // cons-qty-min
 	 var consQtyMin = Array.from($(".cons-qty-min")).map(processInputConstraints);
+	 localStorage.setItem("consQtyMin", JSON.stringify(consQtyMin));
 	 // cons-qty-max
 	 var consQtyMax = Array.from($(".cons-qty-max")).map(processInputConstraints);
+         localStorage.setItem("consQtyMax", JSON.stringify(consQtyMax));
 	 for (i = 0; i < data.length; ++i) {
 	     event.ingredients.push(
 		 {
@@ -235,7 +284,7 @@
 	 console.log(event)
 	 
 	 var xhr = new XMLHttpRequest();
-	 xhr.open('POST', 'https://wg3am3bc07.execute-api.eu-west-1.amazonaws.com/dev/opt');
+	 xhr.open('POST', "http://localhost:7777/");
 	 xhr.setRequestHeader('Content-Type', 'application/json');
 	 xhr.onload = function() {
 	     if (xhr.status === 200) {
@@ -263,12 +312,13 @@
 	     var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + name + "</td><td>" + calories + "</td><td>" + "100" + "</td><td> <input type='number' class='cons-qty-min' min='0' max='1000'>" + "</td><td> <input type='number' class='cons-qty-max' min='0' max='1000'>" + "</td></tr>";
 	     data.push({
 		 "name": name,
-		 "calories": parseInt(calories),
-		 "proteins": parseInt(proteins),
-		 "carbohydrates": parseInt(carbohydrates),
-		 "fats": parseInt(fats),
+		 "calories": parseFloat(calories),
+		 "proteins": parseFloat(proteins),
+		 "carbohydrates": parseFloat(carbohydrates),
+		 "fats": parseFloat(fats),
 		 "quantity": 100
 	     });
+	     localStorage.setItem("data", JSON.stringify(data))
              $("table tbody").append(markup);
          });
          
@@ -299,8 +349,8 @@
 		 console.log(ingredient);
 		 $("#calories")[0].value = ingredient.calories
 		 $("#proteins")[0].value = ingredient.proteins
-		 $("#carbohydrates").value = ingredient.carbohydrates
-		 $("#fats").value = ingredient.fats
+		 $("#carbohydrates")[0].value = ingredient.carbohydrates
+		 $("#fats")[0].value = ingredient.fats
 	     }
 	 } );
      } );
