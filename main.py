@@ -72,7 +72,11 @@ def handle_post():
         {'type': 'ineq', 'fun': lambda x: -sum([x[i]*ingredients[i]["calories"] for i in range(len(ingredients))]) - epsilon + target["calories"]},
 
         # Try to get AT LEAST target["proteins"] grams of proteins
-        {'type': 'ineq', 'fun': lambda x: np.random.random() if -sum([x[i]*ingredients[i]["proteins"] for i in range(len(ingredients))]) + target["proteins"] < 0 else -sum([x[i]*ingredients[i]["proteins"] for i in range(len(ingredients))]) + target["proteins"]  }
+        {'type': 'ineq', 'fun': lambda x: np.random.random() \
+         if -sum([x[i]*ingredients[i]["proteins"] \
+                  for i in range(len(ingredients))]) + target["proteins"] < 0 \
+         else -sum([x[i]*ingredients[i]["proteins"] \
+                    for i in range(len(ingredients))]) + target["proteins"]  }
     )
     
     ### Constraints on the quantities for each ingredients
@@ -82,10 +86,10 @@ def handle_post():
 
         if qty_min:
             qty_min = float(qty_min)
-            bounds[idx] = (qty_min, None)
+            bounds[idx] = (max(qty_min, 0), None)
         if qty_max:
             qty_max = float(qty_max)
-            bounds[idx] = (bounds[idx][0], qty_max)
+            bounds[idx] = (bounds[idx][0], max(0, qty_max))
 
 
     res = minimize(
