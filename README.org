@@ -8,25 +8,31 @@ such that the total number of calories for the recipe is 600 kcal; how much of e
 #+END_QUOTE
 
 
-## How to use 
-### Create a virtualenv
+** How to use 
+ 
+***  Create a virtualenv
 From within the directory of this readme: 
 
-`python -m venv venv`
+#+begin_src sh
+python -m venv venv
+#+end_src
 
-### Run the server
-`bash run.sh`
+*** Run the server
+#+begin_src sh
+bash run.sh
+#+end_src
 
-### Access the web app
+*** Access the web app
 Go to http://localhost:7777/
 
-### If you need to add ingredients
-Edit the variable ===datastore=== in the file ===templates/index.jinja2===. 
+*** If you need to add ingredients
+Edit the variable =datastore= in the file =templates/index.jinja2=. 
 
-## How it works 
+**  How it works 
 
 [[file:img/tuto.png]]
-## Roadmap
+
+**  Roadmap
 - [X] Add ingredients
 - [X] Remove ingredients
 - [ ] Enable users to quickly find and select from a pre-populated list of values as they type an ingredient name 
