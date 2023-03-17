@@ -17,6 +17,12 @@ From within the directory of this readme:
 python -m venv venv
 #+end_src
 
+*** Install dependencies
+#+begin_src sh
+source venv/bin/activate
+pip install -r requirements.txt
+#+end_src
+
 *** Run the server
 #+begin_src sh
 bash run.sh
