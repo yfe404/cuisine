@@ -1,18 +1,3 @@
-
-
-<p align="center">
-<a href="https://github.com/yfe404/cuisine/"><img alt="Kuisine Logo" src="./logos/kuisine-logo-regular.png" width="75%"></a>
-</p>
-
-
-<h2 align="center">Be Healthy</h2>
-
-<p align="center">
-<a href="https://github.com/yfe4040/cuisine/actions"><img alt="Actions Status" src="https://github.com/yfe404/cuisine/workflows/CI/badge.svg"></a>
-<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-</p>
-
-
 # What is it ? 
 
 #+BEGIN_QUOTE
@@ -23,10 +8,25 @@ such that the total number of calories for the recipe is 600 kcal; how much of e
 #+END_QUOTE
 
 
-** How it works 
+## How to use 
+### Create a virtualenv
+From within the directory of this readme: 
+
+`python -m venv venv`
+
+### Run the server
+`bash run.sh`
+
+### Access the web app
+Go to http://localhost:7777/
+
+### If you need to add ingredients
+Edit the variable ===datastore=== in the file ===templates/index.jinja2===. 
+
+## How it works 
 
 [[file:img/tuto.png]]
-** Roadmap
+## Roadmap
 - [X] Add ingredients
 - [X] Remove ingredients
 - [ ] Enable users to quickly find and select from a pre-populated list of values as they type an ingredient name 
