@@ -23,7 +23,7 @@ bash run.sh
 #+end_src
 
 *** Access the web app
-Go to http://localhost:7777/
+Go to [[http://localhost:7777/]]
 
 *** If you need to add ingredients
 Edit the variable =datastore= in the file =templates/index.jinja2=. 
