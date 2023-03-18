@@ -66,18 +66,25 @@ def handle_post():
 
     ### Constraints on the target profile (only considering
     ### calories and proteins for now
-    cons = (
+    cons = [
         {'type': 'ineq', 'fun':
          lambda x: sum([x[i]*ingredients[i]["calories"] for i in range(len(ingredients))]) - epsilon - target["calories"]},
         {'type': 'ineq', 'fun': lambda x: -sum([x[i]*ingredients[i]["calories"] for i in range(len(ingredients))]) - epsilon + target["calories"]},
 
-        # Try to get AT LEAST target["proteins"] grams of proteins
-        {'type': 'ineq', 'fun': lambda x: np.random.random() \
-         if -sum([x[i]*ingredients[i]["proteins"] \
-                  for i in range(len(ingredients))]) + target["proteins"] < 0 \
-         else -sum([x[i]*ingredients[i]["proteins"] \
+    ]
+
+    
+    # Try to get AT LEAST target["proteins"] grams of proteins
+    if target["proteins"] is not None and target["proteins"] >= 0 :
+        cons.append(
+            {'type': 'ineq', 'fun': lambda x: np.random.random() \
+             if -sum([x[i]*ingredients[i]["proteins"] \
+                      for i in range(len(ingredients))]) + target["proteins"] < 0 \
+             else -sum([x[i]*ingredients[i]["proteins"] \
                     for i in range(len(ingredients))]) + target["proteins"]  }
-    )
+        )
+
+    cons = tuple(cons)
     
     ### Constraints on the quantities for each ingredients
     for idx, ingredient in enumerate(ingredients):
