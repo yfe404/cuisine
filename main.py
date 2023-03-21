@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, jsonify
 
 
 import json
@@ -41,6 +41,25 @@ def evaluate(quantities, ingredients):
 @app.route('/')
 def index():
     return render_template('index.jinja2')
+
+@app.route('/search')
+def search():
+    search = request.args.get('term')
+
+    fd = open("ingredients.json")
+    ingredients = json.load(fd)
+
+    results = []
+    for ingredient in ingredients:
+        if search.lower() in ingredient["name"].lower():
+            results.append(
+                {
+                    "label":ingredient["name"],
+                    "value": ingredient,
+                }
+            )
+    return jsonify(results)
+
 
 
 @app.route('/', methods=['POST'])

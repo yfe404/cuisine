@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Cuisine</title>
 	<link rel="stylesheet" href="stylesheet.css" type="text/css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -73,100 +74,67 @@
 	 data = []
      }
 
-     
      var dataStore = [
          {
-	     "name": "tomato",
-	     "calories": 27,
+	     "name": "Lait d'avoine",
+	     "calories": 42,
 	     "proteins": 0.5,
-	     "carbohydrates": 3.5,
-	     "fats": 0.5,
+	     "carbohydrates": 7.8,
+	     "fats": 1.1,
+	     "quantity": 100
+	 },	 
+	 {
+	     "name": "Farine de riz",
+	     "calories": 357,
+	     "proteins": 8,
+	     "carbohydrates": 73.9,
+	     "fats": 2.5,
 	     "quantity": 100
 	 },
-	 
 	 {
-	     "name": "apple",
-	     "calories": 80,
-	     "proteins": 0.5,
-	     "carbohydrates": 12.8,
-	     "fats": 0.5,
+	     "name": "Framboises",
+	     "calories": 49.2,
+	     "proteins": 1.19,
+	     "carbohydrates": 5.83,
+	     "fats": 0.8,
 	     "quantity": 100
 	 },
 
 	 {
-	     "name": "carrots",
-	     "calories": 41,
-	     "proteins": 0.63,
-	     "carbohydrates": 7.59,
-	     "fats": 0.5,
+	     "name": "Lait de soja",
+	     "calories": 37.1,
+	     "proteins": 3.63,
+	     "carbohydrates": 0.7,
+	     "fats": 2.07,
 	     "quantity": 100
 	 },
 
 	 {
-	     "name": "nutritional yeast",
-	     "calories": 334,
-	     "proteins": 40.4,
-	     "carbohydrates": 21.8,
+	     "name": "Blancs d'oeufs",
+	     "calories": 17,
+	     "proteins": 3.6,
+	     "carbohydrates": 0.2,
+	     "fats": 0.1,
+	     "quantity": 100
+	 },
+         {
+	     "name": "Jaunes d'oeufs",
+	     "calories": 55,
+	     "proteins": 2.7,
+	     "carbohydrates": 0.6,
 	     "fats": 4.5,
 	     "quantity": 100
 	 },
-
 	 {
-	     "name": "chickpeas",
-	     "calories": 111,
-	     "proteins": 6.74,
-	     "carbohydrates": 15,
-	     "fats": 2.68,
-	     "quantity": 100
-	 },
-
-         {
-	     "name": "egg",
-	     "calories": 143,
-	     "proteins": 13,
-	     "carbohydrates": 0.7,
-	     "fats": 10,
-	     "quantity": 100
-	 },
-
-
-	 {
-	     "name": "oats",
-	     "calories": 350,
-	     "proteins": 14,
-	     "carbohydrates": 56,
-	     "fats": 6.9,
-	     "quantity": 100
-	 },{
-	     "name": "peanut butter",
-	     "calories": 589,
-	     "proteins": 25,
-	     "carbohydrates": 20,
-	     "fats": 50,
-	     "quantity": 100
-	 },{
-	     "name": "flaxseeds",
-	     "calories": 534,
-	     "proteins": 18,
-	     "carbohydrates": 29,
-	     "fats": 42,
-	     "quantity": 100
-	 },{
-	     "name": "pumpkin seeds",
-	     "calories": 446,
-	     "proteins": 19,
-	     "carbohydrates": 54,
-	     "fats": 14,
-	     "quantity": 100
-	 },{
-	     "name": "rice milk",
-	     "calories": 47,
-	     "proteins": 0.3,
-	     "carbohydrates": 9,
-	     "fats": 1,
+	     "name": "Huile d'olive",
+	     "calories": 900,
+	     "proteins": 0,
+	     "carbohydrates": 0,
+	     "fats": 100,
 	     "quantity": 100
 	 }
      ]
+
 
      function fillTable() {
 
@@ -336,24 +304,56 @@
          });
      });    
 
-     $( function() {
-	 var availableTags = dataStore.map(x => x.name);
-	 $( "#name" ).autocomplete({
-	     source: availableTags
-	 });
-	 $( "#name" ).on( "autocompleteselect", function( event, ui ) {
-	     ingredientIndex = dataStore.findIndex(function(elem){return elem.name == ui.item.label});
-	     console.log(ingredientIndex);
-	     if (ingredientIndex != -1) {
-		 ingredient = dataStore[ingredientIndex]
-		 console.log(ingredient);
-		 $("#calories")[0].value = ingredient.calories
-		 $("#proteins")[0].value = ingredient.proteins
-		 $("#carbohydrates")[0].value = ingredient.carbohydrates
-		 $("#fats")[0].value = ingredient.fats
-	     }
-	 } );
-     } );
+      $( function() {
+
+
+	  function split( val ) {
+	      return val.split( /,\s*/ );
+	  }
+	  function extractLast( term ) {
+	      return split( term ).pop();          
+	  }
+
+	  $( "#name" )
+	  // don't navigate away from the field on tab when selecting an item
+	      .on( "keydown", function( event ) {
+		  if ( event.keyCode === $.ui.keyCode.TAB &&
+		       $( this ).autocomplete( "instance" ).menu.active ) {
+		      event.preventDefault();
+		  }
+	      })
+	      .autocomplete({
+		  source: function( request, response ) {
+		      $.getJSON( "/search", {
+			  term: extractLast( request.term )
+		      }, response );
+		  },
+		  search: function() {
+		      // custom minLength
+		      var term = extractLast( this.value );
+		      if ( term.length < 2 ) {
+			  return false;
+		      }
+		  },
+		  focus: function() {
+		      // prevent value inserted on focus
+		      return false;
+		  },
+		  select: function( event, ui ) {
+
+		      this.value = ui.item.label
+		      ingredient = ui.item.value
+		      
+		      console.log(ingredient);
+		      $("#calories")[0].value = ingredient.calories
+		      $("#proteins")[0].value = ingredient.proteins
+		      $("#carbohydrates")[0].value = ingredient.carbohydrates
+		      $("#fats")[0].value = ingredient.fats
+
+		      return false;
+		  }
+	      });
+      });
      
      fillTable();
      updateTotal();
