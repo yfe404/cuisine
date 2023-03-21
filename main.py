@@ -1,4 +1,5 @@
 import json
+from flask_cors import CORS
 from flask import Flask, render_template, url_for, request, jsonify
 
 
@@ -7,6 +8,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/": {"origins": ""}})
 
 
 
