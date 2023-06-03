@@ -15422,5 +15422,13 @@
         "carbohydrates": 9,
         "fats": 15,
         "quantity": 100
+    },
+    {
+        "name": "Filet de cabillaud",
+        "calories": 83,
+        "proteins": 18.5,
+        "carbohydrates": 0,
+        "fats": 0.8,
+        "quantity": 100
     }
 ]
